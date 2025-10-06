@@ -1,0 +1,18 @@
+{
+  "banks": [
+    {"code": 1, "name": "Barclays"},
+    {"code": 2, "name": "HSBC"},
+    {"code": 3, "name": "First Direct"},
+    {"code": 4, "name": "Lloyds Bank"},
+    {"code": 5, "name": "NatWest"},
+    {"code": 6, "name": "Nationwide"},
+    {"code": 7, "name": "Santander"},
+    {"code": 8, "name": "RBS"},
+    {"code": 9, "name": "TSB"},
+    {"code": 10, "name": "Co-operative Bank"},
+    {"code": 11, "name": "Monzo"},
+    {"code": 12, "name": "Starling"},
+    {"code": 13, "name": "Revolut"},
+    {"code": 14, "name": "Other"}
+  ]
+}

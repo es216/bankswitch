@@ -1,0 +1,57 @@
+[ 
+    {
+        "bank_id": 9,
+        "bank_name": "TSB",
+        "bonus": 150,
+        "direct_debits": 0,
+        "deposit": 1000,
+        "excludes": [9],
+        "is_active": true
+    },
+    {
+        "bank_id": 4,
+        "bank_name": "Lloyds Bank",
+        "bonus": 200,
+        "direct_debits": 3,
+        "deposit": 0,
+        "excludes": [4],
+        "is_active": true
+    },
+    {
+        "bank_id": 3,
+        "bank_name": "First Direct",
+        "bonus": 175,
+        "direct_debits": 2,
+        "deposit": 1000,
+        "excludes": [2, 3],
+        "is_active": true
+    },
+    {
+        "bank_id": 6,
+        "bank_name": "Nationwide",
+        "bonus": 175,
+        "direct_debits": 2,
+        "deposit": 1000,
+        "excludes": [6],
+        "is_active": true
+    },
+    {
+        "bank_id": 5,
+        "bank_name": "NatWest",
+        "bonus": 175,
+        "direct_debits": 0,
+        "deposit": 1250,
+        "excludes": [5, 8],
+        "is_active": true
+    },
+    {
+        "bank_id": 10,
+        "bank_name": "Co-operative Bank",
+        "bonus": 100,
+        "direct_debits": 2,
+        "deposit": 1000,
+        "excludes": [10],
+        "is_active": true
+    }
+]
+

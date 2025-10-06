@@ -9,18 +9,18 @@ def eligible_switch(bank_offers, user_input):
      for offer in bank_offers:
         exclusions = offer["excludes"]
         if user_bank in exclusions:
-            ineligible.append(offer["bank"])
-        min_deposit = offer["deposit"]
+            ineligible.append(offer["name"])
+        min_deposit = offer["min_deposit"]
         if user_deposit < min_deposit:
-            if offer["bank"] not in ineligible:
-                ineligible.append(offer["bank"])
-        direct_debits = offer["direct_debits"]
+            if offer["name"] not in ineligible:
+                ineligible.append(offer["name"])
+        direct_debits = offer["min_direct_debits"]
         if user_direct_debits < direct_debits:
-            if offer["bank"] not in ineligible:
-                ineligible.append(offer["bank"])
+            if offer["name"] not in ineligible:
+                ineligible.append(offer["name"])
 
      for offer in bank_offers:
-        bank = offer["bank"]
+        bank = offer["name"]
         if bank not in ineligible:
             eligible.append(bank)
 
