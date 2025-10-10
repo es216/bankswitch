@@ -52,6 +52,15 @@
         "deposit": 1000,
         "excludes": [10],
         "is_active": true
+    },
+    {
+        "bank_id": 1,
+        "bank_name": "Barclays",
+        "bonus": 200,
+        "direct_debits": 2,
+        "deposit": 2000,
+        "excludes": [1],
+        "is_active": true
     }
 ]
 

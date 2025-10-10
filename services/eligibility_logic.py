@@ -1,27 +1,50 @@
 # function to check eligibility criteria - returns list of eligible and ineligible banks
 def eligible_switch(bank_offers, user_input):
-     ineligible = []
-     eligible = []
-     user_bank = user_input["bank"]
-     user_direct_debits = user_input["direct_debits"]
-     user_deposit = user_input["deposit"]
+    ineligible = []
+    eligible = []
+    user_bank_id = int(user_input["bank"]) ## must be int or won't match with int in excludes list
+    user_direct_debits = user_input["direct_debits"]
+    user_deposit = user_input["deposit"]
+    live_bank_offers = [offer for offer in bank_offers if offer["is_active"]]
+    sum_bonus = 0
 
-     for offer in bank_offers:
+## check each bank offer against user criteria to create list of ineligible banks    
+    for offer in live_bank_offers:
         exclusions = offer["excludes"]
-        if user_bank in exclusions:
-            ineligible.append(offer["name"])
+        if user_bank_id in exclusions:
+            ineligible.append(offer["bank_name"])
         min_deposit = offer["min_deposit"]
         if user_deposit < min_deposit:
-            if offer["name"] not in ineligible:
-                ineligible.append(offer["name"])
+            if offer["bank_name"] not in ineligible:
+                ineligible.append(offer["bank_name"])
         direct_debits = offer["min_direct_debits"]
         if user_direct_debits < direct_debits:
-            if offer["name"] not in ineligible:
-                ineligible.append(offer["name"])
+            if offer["bank_name"] not in ineligible:
+                ineligible.append(offer["bank_name"])
 
-     for offer in bank_offers:
-        bank = offer["name"]
-        if bank not in ineligible:
-            eligible.append(bank)
+## create list of dicts of eligible banks by excluding ineligible ones
+    for offer in live_bank_offers:
+        bank_name = offer["bank_name"]
+        min_deposit = offer["min_deposit"]
+        direct_debits = offer["min_direct_debits"]
+        switch_bonus = offer["switch_bonus"]
+        if bank_name not in ineligible:
+            eligible.append({
+                "bank_name": bank_name,
+                "min_deposit": min_deposit,
+                "min_direct_debits": direct_debits,
+                "switch_bonus": switch_bonus
+                })
 
-     return {"eligible": eligible, "ineligible": ineligible}
+## sum up the switch bonuses for eligible banks
+    for offer in eligible:
+        sum_bonus += offer["switch_bonus"]
+    
+     
+
+    return {"eligible": eligible, "ineligible": ineligible, "sum_bonus": sum_bonus}
+
+
+## this would be better if it took into account if just customer, or switch bonus
+
+## this is how you debug with print statements to the console: print("My print statement", flush=True)

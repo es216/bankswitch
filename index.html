@@ -81,17 +81,6 @@
       top: -10px; /* static hop */
     }
 
-    .brand .o::after {
-      content: '';
-      position: absolute;
-      width: 20px;
-      height: 2px;
-      border-top: 2px dashed #ff5d07;
-      top: -10px;
-      left: 50%;
-      transform: translateX(-50%) rotate(20deg);
-    }
-
     /* Form fields */
     .form-container form {
       display: flex;
@@ -168,12 +157,13 @@
 async function populateBankDropdown() {
     try {
         const response = await fetch("http://127.0.0.1:5000/list_of_banks");
-        const data = await response.json();
+        const jsonData = await response.json();
+        const data = jsonData.banks;
 
         const bankSelect = document.getElementById("bank");
         data.forEach(bank => {
             const option = document.createElement("option");
-            option.value = bank.code;   // numeric code used internally
+            option.value = bank.id;   // numeric code used internally
             option.textContent = bank.name; // display name
             bankSelect.appendChild(option);
         });
@@ -210,10 +200,10 @@ document.getElementById("eligibility-form").addEventListener("submit", async fun
 
     if (data.eligible.length > 0) {
         resultsText.style.display = "block";
-        resultsText.textContent = "You may be eligible for a bank switch to:";
+        resultsText.textContent = "You may be eligible for up to £" + data.sum_bonus + " in switch bonuses! Check out the switch offers from these banks:";
         data.eligible.forEach(bank => {
             const li = document.createElement("li");
-            li.textContent = bank;
+            li.textContent = bank.bank_name;
             resultsList.appendChild(li);
         });
     } else {

@@ -12,4 +12,4 @@ def get_list_of_banks():
     with open(file_path, 'r') as f:
         list_of_banks = json.load(f)
 
-    return jsonify(list_of_banks["banks"])
+    return jsonify(list_of_banks)
