@@ -54,7 +54,7 @@ with app.app_context():
 
         if existing:
             existing.name = bank["name"]
-            existing.logo = bank("logo") if "logo" in bank else None
+            existing.logo = bank["logo"] if "logo" in bank else None
 
         else:
             bank_entry = BankInfo(

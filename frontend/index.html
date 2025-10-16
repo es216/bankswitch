@@ -229,7 +229,7 @@
 // fetch bank list from Flask API and populate dropdown
 async function populateBankDropdown() {
     try {
-        const response = await fetch("http://127.0.0.1:5000/list_of_banks");
+        const response = await fetch("https://bankswitch-backend.onrender.com/list_of_banks");
         const jsonData = await response.json();
         const data = jsonData.banks;
 
@@ -256,7 +256,7 @@ document.getElementById("eligibility-form").addEventListener("submit", async fun
     const deposit = parseFloat(document.getElementById("deposit").value);
     const direct_debits = parseInt(document.getElementById("direct_debits").value);
 
-    const response = await fetch("http://127.0.0.1:5000/eligible", {
+    const response = await fetch("https://bankswitch-backend.onrender.com/eligible", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ bank, deposit, direct_debits })
