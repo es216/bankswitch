@@ -1,3 +1,5 @@
+import os
+
 # function to check eligibility criteria - returns list of eligible and ineligible banks
 def eligible_switch(bank_offers, bank_info, user_input):
     ineligible = []
@@ -7,6 +9,7 @@ def eligible_switch(bank_offers, bank_info, user_input):
     user_deposit = user_input["deposit"]
     live_bank_offers = [offer for offer in bank_offers if offer["is_active"]]
     sum_bonus = 0
+    LOGO_TOKEN = os.getenv("LOGO_DEV_KEY") ## get logo token from env
 
 ## check each bank offer against user criteria to create list of ineligible banks    
     for offer in live_bank_offers:
@@ -33,8 +36,10 @@ def eligible_switch(bank_offers, bank_info, user_input):
         logo = next((bank["logo"] for bank in bank_info if bank["id"] == bank_id), None)
 
         if bank_name not in ineligible:
+            logo_with_token = f"{logo}{LOGO_TOKEN}" if logo and LOGO_TOKEN else logo
+
             eligible.append({
-                "logo": logo,
+                "logo": logo_with_token,
                 "bank_name": bank_name,
                 "min_deposit": min_deposit,
                 "min_direct_debits": direct_debits,
