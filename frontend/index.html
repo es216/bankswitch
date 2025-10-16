@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>hopper - Bank Switch Checker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Nunito', sans-serif; }
+    body, html { height: 100%; overflow-x: hidden; }
+
+    body {
+        background: #E6EbE0;
+        color: #1c1c1c;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        justify-content: flex-start;
+    }
+    
+    .navbar {
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+      padding: 10px 40px;
+      /*background: rgba(255, 255, 255, 0.8);*/
+      /*box-shadow: 0 2px 10px rgba(0,0,0,0.1);*/
+      position: static;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      }    
+
+    .nav_button, a {
+      color: black;
+      font-size: 1rem;
+      margin-left: 20px;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 1s;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .nav_button:hover, a:hover {
+      color: rgb(87, 87, 87);
+    }
+
+    .hero {
+      font-size: 2rem;
+      position: relative;
+      padding-top: 40px;
+      padding-bottom: 40px;
+    }
+
+    .call_to_action {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      position: relative;
+      padding-bottom: 40px;
+    }
+
+    /* Form container */
+    .form-container {
+      background-color: #fff;
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      width: 350px;
+      text-align: center;
+      position: relative;
+      z-index: 5;
+    }
+
+    /* Brand */
+    .brand {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #ff5d07;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .brand .o {
+      position: relative;
+      top: -10px; /* static hop */
+    }
+
+    /* Form fields */
+    .form-container form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .form-container input, .form-container select {
+      padding: 12px;
+      font-size: 1rem;
+      border: 2px solid #9bc1bc;
+      border-radius: 8px;
+    }
+
+    .form-container button {
+      padding: 12px;
+      background-color: #ff5d07;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .form-container button:hover { background-color: #e64e00; }
+
+    /* Results */
+    #results-container {
+      margin-top: 50px;
+      width:90%;
+      max-width: 900px;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      padding: 30px;
+      text-align: center;
+      transition: all 0.5s ease;
+      display: none;
+    }
+
+    #results-container p { 
+      margin-bottom: 10px; 
+      color: #000000; 
+    }
+
+    #results { 
+      color: #333;
+      font-size: 1.1rem;
+      margin-bottom: 15px; 
+    }
+
+    /* Table container animation */
+  .table-wrapper {
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 1s ease-out, opacity 0.8s ease-out;
+  }
+
+  .table-wrapper.show {
+    max-height: 800px; /* enough to reveal the full table */
+    opacity: 1;
+  }
+
+  /* Table styles */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 10px 12px;
+  }
+
+  th {
+    background-color: #ff5d07;
+    color: white;
+  }
+
+  tr:nth-child(even) {
+    background-color: #9bc1bc;
+  }
+
+  tr:hover {
+    background-color: #ffe3d0;
+    transition: background 0.3s;
+  }
+
+  #results-container {
+    margin-top: 25px;
+  }
+
+  .bank-logo {
+    height: 70px;
+    width: auto;
+    vertical-align: middle;
+    margin-right: 8px;
+    border-radius: 4px;
+  }
+
+
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <div class="nav_button"><a href="index.html">home</a></div>
+    <div class="nav_button">current switch offers</div>
+    <div class="nav_button"><a href="how.html">how does it work?</a></div>
+    <div class="nav_button">top tips</div>
+    <div class="nav_button">contact</div>
+  </div>
+
+  <div class="hero">banks will pay YOU cash to become a customer</div>
+  <div class="call_to_action">find out if you might be eligible</div>
+
+  <div class="form-container">
+    <div class="brand">h<span class="o">o</span>pper</div>
+
+    
+    <form id="eligibility-form">
+      <select id="bank" required>
+        <option value="" disabled selected>Select your current bank</option>
+      </select>
+
+      <input type="number" id="deposit" placeholder="Deposit (£)" required>
+      <input type="number" id="direct_debits" placeholder="Direct Debits" required>
+      <button type="submit">Check Eligibility</button>
+    </form>
+  </div>
+  <div id="results-container">
+    <p id="results-text" style="display:none;">You may be eligible for a bank switch to:</p>
+    <div id="results"></div>
+  </div>
+
+<script>
+// fetch bank list from Flask API and populate dropdown
+async function populateBankDropdown() {
+    try {
+        const response = await fetch("http://127.0.0.1:5000/list_of_banks");
+        const jsonData = await response.json();
+        const data = jsonData.banks;
+
+        const bankSelect = document.getElementById("bank");
+        data.forEach(bank => {
+            const option = document.createElement("option");
+            option.value = bank.id;
+            option.textContent = bank.name;
+            bankSelect.appendChild(option);
+        });
+    } catch (error) {
+        console.error("Failed to load bank list:", error);
+    }
+}
+
+// call dropdown population on page load
+populateBankDropdown();
+
+// eligibility form submission handler
+document.getElementById("eligibility-form").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const bank = document.getElementById("bank").value;
+    const deposit = parseFloat(document.getElementById("deposit").value);
+    const direct_debits = parseInt(document.getElementById("direct_debits").value);
+
+    const response = await fetch("http://127.0.0.1:5000/eligible", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ bank, deposit, direct_debits })
+    });
+
+    const data = await response.json();
+    const resultsText = document.getElementById("results-text");
+    const resultsContainer = document.getElementById("results-container");
+    const oldTable = document.getElementById("results-table-wrapper");
+
+    // remove any existing table
+    if (oldTable) oldTable.remove();
+
+    resultsContainer.style.display = "block";
+    if (data.eligible.length > 0) {
+        resultsText.style.display = "block";
+        resultsText.innerHTML = `
+            You may be eligible for up to £${data.sum_bonus} in switch bonuses!<br><br>
+            Check out the switch offers from the banks below, and select one to find out more.
+        `;
+
+        // Create a wrapper div for animation
+        const tableWrapper = document.createElement("div");
+        tableWrapper.classList.add("table-wrapper");
+        tableWrapper.id = "results-table-wrapper";
+
+        // Create table
+        const table = document.createElement("table");
+        const thead = document.createElement("thead");
+        const headerRow = document.createElement("tr");
+        ["Bank", "Minimum Deposit", "Minimum Direct Debits", "Bonus"].forEach(text => {
+            const th = document.createElement("th");
+            th.textContent = text;
+            headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        const tbody = document.createElement("tbody");
+
+        data.eligible.forEach(bank => {
+            const row = document.createElement("tr");
+
+                        // Bank + logo cell
+            const bankCell = document.createElement("td");
+            const logoImg = document.createElement("img");
+            logoImg.src = bank.logo;
+            logoImg.alt = bank.bank_name + " logo";
+            logoImg.classList.add("bank-logo");
+            bankCell.appendChild(logoImg);
+
+            const bankName = document.createElement("span");
+            bankName.textContent = " " + bank.bank_name;
+            bankCell.appendChild(bankName);
+
+            row.appendChild(bankCell);
+
+            const depositCell = document.createElement("td");
+            depositCell.textContent = "£" + bank.min_deposit;
+            row.appendChild(depositCell);
+
+            const ddCell = document.createElement("td");
+            ddCell.textContent = bank.min_direct_debits;
+            row.appendChild(ddCell);
+
+            const bonusCell = document.createElement("td");
+            bonusCell.textContent = "£" + bank.switch_bonus;
+            row.appendChild(bonusCell);
+
+            tbody.appendChild(row);
+        });
+
+        table.appendChild(tbody);
+        tableWrapper.appendChild(table);
+        resultsContainer.appendChild(tableWrapper);
+
+        // trigger animation
+        setTimeout(() => {
+            tableWrapper.classList.add("show");
+        }, 100);
+
+    } else {
+        resultsText.style.display = "block";
+        resultsText.textContent = "Unfortunately it seems you're not eligible for any switch bonus.";
+    }
+});
+</script>
+
+
+</body>
+</html>

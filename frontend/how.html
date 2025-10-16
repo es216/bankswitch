@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset=""UTF-8">
+    <title>hopper - bank switch checker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Nunito', sans-serif; }
+      body, html { height: 100%; overflow-x: hidden;}        
+        
+      body {
+        background: #E6EbE0;
+        color: #1c1c1c;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        justify-content: flex-start;
+        }
+
+      .navbar {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+        padding: 10px 40px;
+        /*background: rgba(255, 255, 255, 0.8);*/
+        /*box-shadow: 0 2px 10px rgba(0,0,0,0.1);*/
+        position: static;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        }
+
+    .nav_button, a {
+      color: black;
+      font-size: 1rem;
+      margin-left: 20px;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 1s;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .nav_button:hover, a:hover {
+      color: rgb(87, 87, 87);
+    }  
+
+    .header {
+      color: #ff5d07;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      height: 200px;
+      font-size: 3em;
+      /*border: black dashed 3px;*/
+      padding-top: 40px;
+      font-weight: 700;
+    }
+
+    .main {
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    .info {
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      width: 100%;
+      /*padding-top: 5px;
+      padding-bottom: 5px;*/
+      padding: 40px 20px;
+      min-height: 200px;
+      /*border: black dashed 3px;*/
+    }
+
+    h1 {
+      font-size: 1.5em;
+      font-weight: 700;
+    }
+
+    .text {
+      max-width: 400px;
+      line-height: 1.6;
+      font-weight: 400;
+    }
+
+    .image {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 300px;
+      min-width: 300px;
+      max-width: 400px;
+
+      /*background-color: red;*/
+    }
+
+    .image img {
+      border-radius: 16px;
+      /*box-shadow: 0 8px 20px rgba(0,0,0,0.08);*/
+      max-width: 100%;
+      height: auto;
+    }
+
+    p {
+      padding-top: 5px;
+      font-weight: 400;
+    }
+
+    .info {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .info.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 800px) {
+    .info {
+    flex-direction: column; /* stack text and image vertically instead of side by side */
+    }
+
+    .image {
+    display: none; /* hide images on small screens */
+    } 
+
+    .text {
+    max-width: 90%; /* make text take more space */
+    text-align: center;
+    }
+}
+
+    </style>
+</head>
+<body> 
+  
+  <div class="navbar">
+    <div class="nav_button"><a href="index.html">home</a></div>
+    <div class="nav_button">current switch offers</div>
+    <div class="nav_button"><a href="how.html">how does it work?</a></div>
+    <div class="nav_button">top tips</div>      
+    <div class="nav_button">contact</div>
+  </div>
+
+  <div class="header">
+    how does it work?
+  </div>
+  <div class="main">
+    <div class="info" id="info1">
+      <div class="text">
+        <h1>why would banks pay me?</h1>
+        <p>Banks are hoping you’ll stick around and use their services. By offering a cash bonus, they’re betting that, over time, they’ll earn more from things like fees, interest, or other products you might use. Think of it like a “welcome mat”: they’re putting out the cash to get you in the door and keep you coming back.</p>
+      </div> 
+        <div class="image"><img src="media/photo1.png" alt="hello"/></div>
+    </div>
+    <div class="info" id="info2">
+      <div class="image"><img src="media/photo2.png" alt="hello"/></div>
+      <div class="text">
+        <h1>is it really that simple?</h1>
+        <p>Mostly, yes. Switching your account is handled by CASS, a system that makes the process safe and standardised. There are usually a few hoops - like setting up direct debits or leaving your account open for a few months - but they’re not tricky if you can stay organised.</p>
+      </div> 
+    </div>
+    <div class="info" id="info3">
+      <div class="text">
+        <h1>how much money can I make?</h1>
+        <p>You won't become rich! Bonuses usually fall between £100–£200. Still, that’s essentially free cash for following a few simple steps. Once you’ve claimed a bonus, the same bank probably won’t give you another for a few years, so treat it as a one-off win rather than a steady income.</p>
+      </div> 
+      <div class="image"><img src="media/photo3.png" alt="hello"/></div>
+    </div>
+  </div>
+
+
+  <script>
+    const infos = document.querySelectorAll('.info');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    });
+    infos.forEach(info => observer.observe(info));
+  </script>
+
+
+</body>
+</html>

@@ -27,3 +27,16 @@ class Banks(db.Model):
             'is_active': self.is_active
         }
     
+class BankInfo(db.Model):
+    __tablename__ = 'bank_info'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    logo = db.Column(db.String, nullable=True)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'logo': self.logo
+        }

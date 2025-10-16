@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from models.bank_model import Banks, db
+from models.bank_model import Banks, BankInfo, db
 from services.eligibility_logic import eligible_switch
 
 ## blueprint
@@ -16,6 +16,10 @@ def check_eligibility():
     banks = Banks.query.all()
     bank_offers = [bank.to_dict() for bank in banks]
 
+    #load bank info data from the database to get logos
+    list_of_banks = BankInfo.query.all()
+    bank_info = [bank.to_dict() for bank in list_of_banks]
 
-    result = eligible_switch(bank_offers, user_data)
+
+    result = eligible_switch(bank_offers, bank_info, user_data)
     return jsonify(result)

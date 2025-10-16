@@ -1,0 +1,18 @@
+{
+  "banks": [
+    {"id": 1, "name": "Barclays", "logo": "https://img.logo.dev/barclays.co.uk?token=pk_CudfE-3JT3urGsW_THR1Eg" },
+    {"id": 2, "name": "HSBC", "logo": "https://img.logo.dev/hsbc.co.uk?token=pk_CudfE-3JT3urGsW_THR1Eg"},
+    {"id": 3, "name": "First Direct", "logo": "https://img.logo.dev/firstdirect.com?token=pk_CudfE-3JT3urGsW_THR1Eg"},
+    {"id": 4, "name": "Lloyds Bank", "logo": "https://img.logo.dev/lloydsbank.co.uk?token=pk_CudfE-3JT3urGsW_THR1Eg"},
+    {"id": 5, "name": "NatWest", "logo": "https://img.logo.dev/natwest.com?token=pk_CudfE-3JT3urGsW_THR1Eg"},
+    {"id": 6, "name": "Nationwide", "logo": "https://img.logo.dev/nationwide.co.uk?token=pk_CudfE-3JT3urGsW_THR1Eg"},
+    {"id": 7, "name": "Santander", "logo": "https://img.logo.dev/santander.co.uk?token=pk_CudfE-3JT3urGsW_THR1Eg"},
+    {"id": 8, "name": "RBS", "logo": "https://img.logo.dev/rbs.co.uk?token=pk_CudfE-3JT3urGsW_THR1Eg"},
+    {"id": 9, "name": "TSB", "logo": "https://img.logo.dev/tsb.co.uk?token=pk_CudfE-3JT3urGsW_THR1Eg"},
+    {"id": 10, "name": "Co-operative Bank", "logo": "https://img.logo.dev/co-operativebank.co.uk?token=pk_CudfE-3JT3urGsW_THR1Eg"},
+    {"id": 11, "name": "Monzo", "logo": "https://img.logo.dev/monzo.com?token=pk_CudfE-3JT3urGsW_THR1Eg"},
+    {"id": 12, "name": "Starling", "logo": "https://img.logo.dev/starlingbank.com?token=pk_CudfE-3JT3urGsW_THR1Eg"},
+    {"id": 13, "name": "Revolut", "logo": "https://img.logo.dev/revolut.com?token=pk_CudfE-3JT3urGsW_THR1Eg"},
+    {"id": 14, "name": "Other", "logo": ""}
+  ]
+}
