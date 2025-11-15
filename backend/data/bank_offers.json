@@ -10,7 +10,7 @@
     },
     {
         "bank_id": 4,
-        "bank_name": "Lloyds Bank",
+        "bank_name": "Lloyds Bank TEST TEST TEST",
         "bonus": 200,
         "direct_debits": 3,
         "deposit": 0,

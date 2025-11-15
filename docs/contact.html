@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>hopper - Current Switch Offers</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Nunito', sans-serif; }
+    body, html { height: 100%; overflow-x: hidden; }
+
+    body {
+        background: #E6EbE0;
+        color: #1c1c1c;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        justify-content: flex-start;
+    }    
+    
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 10px 40px;
+      position: static;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      }   
+      
+    .hopper_logo {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #ff5d07;
+      cursor: pointer;
+      text-decoration: none;
+    } 
+
+    @keyframes hop {
+      0%   { transform: translateY(0); }
+      30%  { transform: translateY(-15px); }
+      60%  { transform: translateY(0); }
+      80%  { transform: translateY(-5px); }
+      100% { transform: translateY(0); }
+    }
+
+    .hopper_logo .o {
+      position: relative;
+      display: inline-block;
+      top: -5px;
+      padding: 0 6px;
+      margin: 0 -6px;
+      line-height: 1;
+    }
+
+    .hopper_logo .o:hover {
+      animation: hop 0.6s ease;
+      will-change: transform;
+    }
+
+    .nav_button {
+      display: inline-block;
+      color: black;
+      font-size: 1rem;
+      margin-left: 20px;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 1s;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .nav_button:hover {
+      color: rgb(87, 87, 87);
+    }
+
+    .main {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 90vh;
+    }
+
+    .maintenance {
+        font-size: 4rem;
+    }
+
+
+
+  </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="index.html" class="hopper_logo">h<span class="o">o</span>pper</a>
+        <div class="nav_links">
+            <a href="index.html" class="nav_button">home</a>
+            <a href="offers.html" class="nav_button">current switch offers</a>
+            <a href="how.html" class="nav_button">how does it work?</a>
+            <a href="tips.html" class="nav_button">top tips</a>
+            <a href="contact.html" class="nav_button">contact</a>
+        </div>
+    </div>
+    <div class="main">
+        <div class="maintenance">Under maintenance... check back soon</div>
+    </div> 
+    </body>
+</html> 

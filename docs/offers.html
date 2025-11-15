@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>hopper - Current Switch Offers</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Nunito', sans-serif; }
+    body, html { height: 100%; overflow-x: hidden; }
+
+    body {
+        background: #E6EbE0;
+        color: #1c1c1c;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        justify-content: flex-start;
+    }
+
+.navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 10px 40px;
+      position: static;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      }   
+      
+    .hopper_logo {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #ff5d07;
+      cursor: pointer;
+      text-decoration: none;
+    } 
+
+    @keyframes hop {
+      0%   { transform: translateY(0); }
+      30%  { transform: translateY(-15px); }
+      60%  { transform: translateY(0); }
+      80%  { transform: translateY(-5px); }
+      100% { transform: translateY(0); }
+    }
+
+    .hopper_logo .o {
+      position: relative;
+      display: inline-block;
+      top: -5px;
+      padding: 0 6px;
+      margin: 0 -6px;
+      line-height: 1;
+    }
+
+    .hopper_logo .o:hover {
+      animation: hop 0.6s ease;
+      will-change: transform;
+    }
+
+    .nav_button {
+      display: inline-block;
+      color: black;
+      font-size: 1rem;
+      margin-left: 20px;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 1s;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .nav_button:hover {
+      color: rgb(87, 87, 87);
+    }
+
+
+    .hero {
+      font-size: 2rem;
+      padding-top: 40px;
+      padding-bottom: 10px;
+      text-align: center;
+    }
+
+    .call_to_action {
+      font-size: 1.2rem;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    /* Results container */
+    #results-container {
+      margin-top: 25px;
+      width: 90%;
+      max-width: 900px;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      padding: 30px;
+      text-align: center;
+      transition: all 0.5s ease;
+      display: none;
+      margin-bottom: 25px;
+    }
+
+    .spinner {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #ff5d07;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin-top: 30px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .table-wrapper {
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 1s ease-out, opacity 0.8s ease-out;
+    }
+
+    .table-wrapper.show {
+      max-height: 800px;
+      opacity: 1;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 10px 12px;
+    }
+
+    th {
+      background-color: #ff5d07;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #9bc1bc;
+    }
+
+    tr:hover {
+      background-color: #ffe3d0;
+      transition: background 0.3s;
+    }
+
+    .bank-logo {
+      height: 70px;
+      width: auto;
+      vertical-align: middle;
+      margin-right: 8px;
+      border-radius: 4px;
+    }
+
+    .total-bonus {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ff5d07;
+      margin-bottom: 15px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <a href="index.html" class="hopper_logo">h<span class="o">o</span>pper</a>
+    <div class="nav_links">
+      <a href="index.html" class="nav_button">home</a>
+      <a href="offers.html" class="nav_button">current switch offers</a>
+      <a href="how.html" class="nav_button">how does it work?</a>
+      <a href="tips.html" class="nav_button">top tips</a>
+      <a href="contact.html" class="nav_button">contact</a>
+    </div>
+  </div>
+
+  <div class="hero">current bank switch offers</div>
+  <div class="call_to_action">find the latest switch deals available right now</div>
+
+  <div id="loading-spinner" class="spinner" style="display:none;"></div>
+
+  <div id="results-container">
+    <p class="total-bonus" id="total-bonus"></p>
+    <p id="results-text"></p>
+    <div id="results"></div>
+  </div>
+
+<script>
+  // Determine backend
+  const hostname = window.location.hostname;
+  const isLocal = !hostname || hostname === "localhost" || hostname === "127.0.0.1";
+  const API_BASE_URL = isLocal
+    ? "http://127.0.0.1:5000"
+    : "https://bankswitch-backend.onrender.com";
+
+  console.log("Using API:", API_BASE_URL);
+
+  // Fetch and display live offers
+  async function loadLiveOffers() {
+    const spinner = document.getElementById("loading-spinner");
+    const resultsContainer = document.getElementById("results-container");
+    const results = document.getElementById("results");
+    const totalBonus = document.getElementById("total-bonus");
+
+    spinner.style.display = "block";
+    
+    const startTime = Date.now();
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/live_offers`);
+      const data = await response.json();
+
+      const elapsed = Date.now() - startTime;
+      const minDuration = 1000; // 1 second
+      if (elapsed < minDuration) {
+        await new Promise(resolve => setTimeout(resolve, minDuration - elapsed));
+      }
+
+      spinner.style.display = "none";
+      resultsContainer.style.display = "block";
+
+      // Show total sum of bonuses
+      totalBonus.textContent = `There is currently £${data.sum_bonus.toLocaleString()} available in bank switch bonuses.`;
+
+      // Create wrapper
+      const tableWrapper = document.createElement("div");
+      tableWrapper.classList.add("table-wrapper");
+
+      // Create table
+      const table = document.createElement("table");
+      const thead = document.createElement("thead");
+      const headerRow = document.createElement("tr");
+      ["Bank", "Minimum Deposit", "Minimum Direct Debits", "Bonus"].forEach(text => {
+        const th = document.createElement("th");
+        th.textContent = text;
+        headerRow.appendChild(th);
+      });
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
+
+      const tbody = document.createElement("tbody");
+
+      data.live_offers.forEach(bank => {
+        const row = document.createElement("tr");
+
+        // Bank + logo cell
+        const bankCell = document.createElement("td");
+        const logoImg = document.createElement("img");
+        logoImg.src = bank.logo;
+        logoImg.alt = bank.bank_name + " logo";
+        logoImg.classList.add("bank-logo");
+        bankCell.appendChild(logoImg);
+
+        const bankName = document.createElement("span");
+        bankName.textContent = " " + bank.bank_name;
+        bankCell.appendChild(bankName);
+        row.appendChild(bankCell);
+
+        const depositCell = document.createElement("td");
+        depositCell.textContent = "£" + bank.min_deposit.toLocaleString();
+        row.appendChild(depositCell);
+
+        const ddCell = document.createElement("td");
+        ddCell.textContent = bank.min_direct_debits;
+        row.appendChild(ddCell);
+
+        const bonusCell = document.createElement("td");
+        bonusCell.textContent = "£" + bank.switch_bonus.toLocaleString();
+        row.appendChild(bonusCell);
+
+        tbody.appendChild(row);
+      });
+
+      table.appendChild(tbody);
+      tableWrapper.appendChild(table);
+      results.appendChild(tableWrapper);
+
+      // Animate table appearance
+      setTimeout(() => tableWrapper.classList.add("show"), 100);
+
+    } catch (error) {
+      console.error("Failed to load live offers:", error);
+      spinner.style.display = "none";
+      resultsContainer.style.display = "block";
+      results.textContent = "Sorry, we couldn’t load the offers at this time.";
+    }
+  }
+
+  loadLiveOffers();
+</script>
+
+</body>
+</html>
