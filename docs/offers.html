@@ -2,108 +2,135 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>hopper - Current Switch Offers</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Nunito', sans-serif; }
-    body, html { height: 100%; overflow-x: hidden; }
+    body, html { height: auto; min-height: 100vh; background: linear-gradient(to bottom, #CBF3D2 0%, #008DD5 100%); overflow-x: hidden; }
 
     body {
-        background: #E6EbE0;
-        color: #1c1c1c;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        min-height: 100vh;
-        justify-content: flex-start;
+      
+      color: #1c1c1c;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      justify-content: flex-start;
     }
 
-.navbar {
+    .navbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
       width: 100%;
       padding: 10px 40px;
-      position: static;
-      top: 0;
-      left: 0;
-      z-index: 1;
-      }   
-      
+    }
+
     .hopper_logo {
       font-size: 3rem;
       font-weight: bold;
       color: #ff5d07;
       cursor: pointer;
       text-decoration: none;
-    } 
-
-    @keyframes hop {
-      0%   { transform: translateY(0); }
-      30%  { transform: translateY(-15px); }
-      60%  { transform: translateY(0); }
-      80%  { transform: translateY(-5px); }
-      100% { transform: translateY(0); }
     }
 
     .hopper_logo .o {
       position: relative;
-      display: inline-block;
       top: -5px;
+      display: inline-block;
       padding: 0 6px;
       margin: 0 -6px;
       line-height: 1;
     }
 
-    .hopper_logo .o:hover {
-      animation: hop 0.6s ease;
-      will-change: transform;
+    .nav_links {
+      display: flex;
+      gap: 20px;
     }
 
     .nav_button {
-      display: inline-block;
       color: black;
       font-size: 1rem;
-      margin-left: 20px;
       padding: 10px 15px;
       border-radius: 8px;
       cursor: pointer;
-      transition: background 1s;
       text-decoration: none;
       font-weight: 600;
+      transition: color .3s ease;
     }
 
     .nav_button:hover {
       color: rgb(87, 87, 87);
     }
 
+    /* Burger icon (hidden on desktop) */
+    .burger {
+      display: none;
+      font-size: 2rem;
+      cursor: pointer;
+    }
+
+    /* Full-screen mobile menu */
+    .mobile_menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 100%;
+      background: #fff;
+      display: none;
+      flex-direction: column;
+      padding: 80px 30px 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      z-index: 9999;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 2.2rem;
+      cursor: pointer;
+      color: rgb(87, 87, 87);
+    }
+
+    .mobile_menu a {
+      padding: 12px 0;
+      text-decoration: none;
+      color: black;
+      font-weight: 600;
+      border-bottom: 1px solid #eee;
+    }
+
+    .mobile_menu a:last-child {
+      border-bottom: none;
+    }
+
+
+    @media (max-width: 900px) {
+      .nav_links { display: none; }
+      .burger { display: block; }
+
+      .navbar {
+        padding: 10px 20px;
+      }
+    }
+
+
 
     .hero {
       font-size: 2rem;
-      padding-top: 40px;
-      padding-bottom: 10px;
+      padding-top: 2rem;
+      padding-bottom: 1rem;
       text-align: center;
     }
 
     .call_to_action {
       font-size: 1.2rem;
-      margin-bottom: 40px;
+      margin-bottom: 1rem;
       text-align: center;
-    }
-
-    /* Results container */
-    #results-container {
-      margin-top: 25px;
-      width: 90%;
-      max-width: 900px;
-      background: #fff;
-      border-radius: 15px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-      padding: 30px;
-      text-align: center;
-      transition: all 0.5s ease;
-      display: none;
-      margin-bottom: 25px;
     }
 
     .spinner {
@@ -119,6 +146,33 @@
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
+    }
+
+    #results-container {
+      margin-top: 1rem;
+      margin-bottom: 2rem;
+      width: 90%;
+      max-width: 900px;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      padding: 30px;
+      text-align: center;
+      display: none;
+    }
+
+    #results {
+      display: flex;
+      flex-direction: column;
+      align-items: center;   /* horizontally centres cards */
+      width: 100%;
+    }
+
+    .total-bonus {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ff5d07;
+      margin-bottom: 15px;
     }
 
     .table-wrapper {
@@ -161,24 +215,106 @@
     .bank-logo {
       height: 70px;
       width: auto;
-      vertical-align: middle;
       margin-right: 8px;
       border-radius: 4px;
+      vertical-align: middle;
     }
 
-    .total-bonus {
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: #ff5d07;
-      margin-bottom: 15px;
-    }
+    /* ------------------------------------------
+   CARD STYLING (same base as index.html)
+------------------------------------------- */
+.offer-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+  width: 90%;
+  max-width: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.offer-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+}
+
+.offer-logo {
+  width: 80px;
+  height: auto;
+  border-radius: 6px;
+  margin-right: 15px;
+}
+
+/* Card content */
+.offer-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.offer-bank-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.offer-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+}
+
+/* BONUS highlight */
+.offer-bonus {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #ff5d07;
+  margin-top: 6px;
+}
+
+/* ------------------------
+   DESKTOP IMPROVEMENTS
+------------------------ */
+@media (min-width: 900px) {
+  .offer-card {
+    max-width: 1000px;
+    padding: 28px;
+  }
+
+  .offer-info {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .offer-bank-name {
+    width: 25%;
+  }
+
+  .offer-row {
+    width: 25%;
+    text-align: center;
+    display: block;
+  }
+
+  .offer-bonus {
+    width: 20%;
+    text-align: right;
+  }
+}
 
   </style>
 </head>
 <body>
 
+  <!-- NAVBAR -->
   <div class="navbar">
     <a href="index.html" class="hopper_logo">h<span class="o">o</span>pper</a>
+
     <div class="nav_links">
       <a href="index.html" class="nav_button">home</a>
       <a href="offers.html" class="nav_button">current switch offers</a>
@@ -186,8 +322,22 @@
       <a href="tips.html" class="nav_button">top tips</a>
       <a href="contact.html" class="nav_button">contact</a>
     </div>
+
+    <div class="burger" id="burger">&#9776;</div>
   </div>
 
+  <!-- MOBILE MENU -->
+  <div class="mobile_menu" id="mobile_menu">
+    <span class="close-btn" id="close_menu">&times;</span>
+
+    <a href="index.html">home</a>
+    <a href="offers.html">current switch offers</a>
+    <a href="how.html">how does it work?</a>
+    <a href="tips.html">top tips</a>
+    <a href="contact.html">contact</a>
+  </div>
+
+  <!-- PAGE CONTENT -->
   <div class="hero">current bank switch offers</div>
   <div class="call_to_action">find the latest switch deals available right now</div>
 
@@ -200,14 +350,27 @@
   </div>
 
 <script>
-  // Determine backend
+  // Detect backend
   const hostname = window.location.hostname;
   const isLocal = !hostname || hostname === "localhost" || hostname === "127.0.0.1";
-  const API_BASE_URL = isLocal
-    ? "http://127.0.0.1:5000"
-    : "https://bankswitch-backend.onrender.com";
+  const API_BASE_URL = isLocal ? "http://127.0.0.1:5000" : "https://bankswitch-backend.onrender.com";
 
-  console.log("Using API:", API_BASE_URL);
+  // Burger menu logic
+  const menu = document.getElementById("mobile_menu");
+  const burger = document.getElementById("burger");
+  const closeBtn = document.getElementById("close_menu");
+
+  burger.addEventListener("click", () => {
+    menu.style.display = "flex";
+    burger.style.display = "none";
+    document.body.style.overflow = "hidden";
+  });
+
+  closeBtn.addEventListener("click", () => {
+    menu.style.display = "none";
+    burger.style.display = "block";
+    document.body.style.overflow = "auto";
+  });
 
   // Fetch and display live offers
   async function loadLiveOffers() {
@@ -217,7 +380,7 @@
     const totalBonus = document.getElementById("total-bonus");
 
     spinner.style.display = "block";
-    
+
     const startTime = Date.now();
 
     try {
@@ -225,7 +388,7 @@
       const data = await response.json();
 
       const elapsed = Date.now() - startTime;
-      const minDuration = 1000; // 1 second
+      const minDuration = 1000;
       if (elapsed < minDuration) {
         await new Promise(resolve => setTimeout(resolve, minDuration - elapsed));
       }
@@ -233,64 +396,30 @@
       spinner.style.display = "none";
       resultsContainer.style.display = "block";
 
-      // Show total sum of bonuses
       totalBonus.textContent = `There is currently £${data.sum_bonus.toLocaleString()} available in bank switch bonuses.`;
 
-      // Create wrapper
-      const tableWrapper = document.createElement("div");
-      tableWrapper.classList.add("table-wrapper");
-
-      // Create table
-      const table = document.createElement("table");
-      const thead = document.createElement("thead");
-      const headerRow = document.createElement("tr");
-      ["Bank", "Minimum Deposit", "Minimum Direct Debits", "Bonus"].forEach(text => {
-        const th = document.createElement("th");
-        th.textContent = text;
-        headerRow.appendChild(th);
-      });
-      thead.appendChild(headerRow);
-      table.appendChild(thead);
-
-      const tbody = document.createElement("tbody");
+      results.innerHTML = ""; // clear
 
       data.live_offers.forEach(bank => {
-        const row = document.createElement("tr");
+        const card = document.createElement("div");
+        card.classList.add("offer-card");
 
-        // Bank + logo cell
-        const bankCell = document.createElement("td");
-        const logoImg = document.createElement("img");
-        logoImg.src = bank.logo;
-        logoImg.alt = bank.bank_name + " logo";
-        logoImg.classList.add("bank-logo");
-        bankCell.appendChild(logoImg);
+        card.innerHTML = `
+          <img src="${bank.logo}" class="offer-logo" alt="${bank.bank_name} logo">
 
-        const bankName = document.createElement("span");
-        bankName.textContent = " " + bank.bank_name;
-        bankCell.appendChild(bankName);
-        row.appendChild(bankCell);
+          <div class="offer-info">
+            <div class="offer-bank-name">${bank.bank_name}</div>
 
-        const depositCell = document.createElement("td");
-        depositCell.textContent = "£" + bank.min_deposit.toLocaleString();
-        row.appendChild(depositCell);
+            <div class="offer-row"><strong>Deposit:</strong> £${bank.min_deposit.toLocaleString()}</div>
+            <div class="offer-row"><strong>Direct Debits:</strong> ${bank.min_direct_debits}</div>
 
-        const ddCell = document.createElement("td");
-        ddCell.textContent = bank.min_direct_debits;
-        row.appendChild(ddCell);
+            <div class="offer-bonus">£${bank.switch_bonus.toLocaleString()}</div>
+          </div>
+        `;
 
-        const bonusCell = document.createElement("td");
-        bonusCell.textContent = "£" + bank.switch_bonus.toLocaleString();
-        row.appendChild(bonusCell);
-
-        tbody.appendChild(row);
+        results.appendChild(card);
       });
 
-      table.appendChild(tbody);
-      tableWrapper.appendChild(table);
-      results.appendChild(tableWrapper);
-
-      // Animate table appearance
-      setTimeout(() => tableWrapper.classList.add("show"), 100);
 
     } catch (error) {
       console.error("Failed to load live offers:", error);

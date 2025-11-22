@@ -1,93 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset=""UTF-8">
-    <title>hopper - bank switch checker</title>
+    <meta charset="UTF-8">
+    <title>hopper - how does it work?</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
     <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Nunito', sans-serif; }
-      body, html { height: 100%; overflow-x: hidden;}        
-        
-      body {
-        background: #E6EbE0;
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Nunito', sans-serif; }
+    body, html { height: 100%; overflow-x: hidden; }
+
+    body {
+        background: linear-gradient(to bottom, #CBF3D2, #008DD5);
         color: #1c1c1c;
         display: flex;
         flex-direction: column;
         align-items: center;
         min-height: 100vh;
-        justify-content: flex-start;
-        }
+    }
 
-.navbar {
+    /* ---------- NAVBAR (identical to index.html) ---------- */
+
+    .navbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
       width: 100%;
       padding: 10px 40px;
-      position: static;
-      top: 0;
-      left: 0;
-      z-index: 1;
-      }   
-      
+    }
+
     .hopper_logo {
       font-size: 3rem;
       font-weight: bold;
       color: #ff5d07;
       cursor: pointer;
       text-decoration: none;
-    } 
-
-    @keyframes hop {
-      0%   { transform: translateY(0); }
-      30%  { transform: translateY(-15px); }
-      60%  { transform: translateY(0); }
-      80%  { transform: translateY(-5px); }
-      100% { transform: translateY(0); }
     }
 
     .hopper_logo .o {
       position: relative;
-      display: inline-block;
       top: -5px;
+      display: inline-block;
       padding: 0 6px;
       margin: 0 -6px;
       line-height: 1;
     }
 
-    .hopper_logo .o:hover {
-      animation: hop 0.6s ease;
-      will-change: transform;
+    .nav_links {
+      display: flex;
+      gap: 20px;
     }
 
     .nav_button {
-      display: inline-block;
       color: black;
       font-size: 1rem;
-      margin-left: 20px;
       padding: 10px 15px;
       border-radius: 8px;
       cursor: pointer;
-      transition: background 1s;
       text-decoration: none;
       font-weight: 600;
+      transition: color .3s ease;
     }
 
     .nav_button:hover {
       color: rgb(87, 87, 87);
     }
- 
+
+    /* Burger only appears on mobile */
+    .burger {
+      display: none;
+      font-size: 2rem;
+      cursor: pointer;
+    }
+
+    /* Full-screen mobile menu */
+    .mobile_menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 100%;
+      background: #fff;
+      display: none;
+      flex-direction: column;
+      padding: 80px 30px 20px;
+      z-index: 9999;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 2.2rem;
+      cursor: pointer;
+      color: rgb(87, 87, 87);
+    }
+
+    .mobile_menu a {
+      padding: 12px 0;
+      text-decoration: none;
+      color: black;
+      font-weight: 600;
+      border-bottom: 1px solid #eee;
+    }
+
+    .mobile_menu a:last-child {
+      border-bottom: none;
+    }
+
+    /* MOBILE OVERRIDES */
+    @media (max-width: 900px) {
+      .nav_links { display: none; }
+      .burger { display: block; }
+      .navbar { padding: 10px 20px; }
+    }
+
+    /* ---------- PAGE CONTENT ---------- */
 
     .header {
       color: #ff5d07;
-      display: flex;
-      justify-content: center;
       width: 100%;
-      height: 200px;
+      text-align: center;
       font-size: 3em;
-      /*border: black dashed 3px;*/
       padding-top: 40px;
       font-weight: 700;
+      margin-bottom: 20px;
     }
 
     .main {
@@ -99,12 +137,15 @@
       display: flex;
       justify-content: space-evenly;
       align-items: center;
-      width: 100%;
-      /*padding-top: 5px;
-      padding-bottom: 5px;*/
       padding: 40px 20px;
-      min-height: 200px;
-      /*border: black dashed 3px;*/
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .info.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     h1 {
@@ -125,53 +166,40 @@
       min-height: 300px;
       min-width: 300px;
       max-width: 400px;
-
-      /*background-color: red;*/
     }
 
     .image img {
       border-radius: 16px;
-      /*box-shadow: 0 8px 20px rgba(0,0,0,0.08);*/
       max-width: 100%;
       height: auto;
     }
 
     p {
       padding-top: 5px;
-      font-weight: 400;
     }
 
-    .info {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .info.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
+    /* Mobile layout for content blocks */
     @media (max-width: 800px) {
-    .info {
-    flex-direction: column; /* stack text and image vertically instead of side by side */
+      .info {
+        flex-direction: column;
+        text-align: center;
+      }
+      .image {
+        display: none;
+      }
+      .text {
+        max-width: 90%;
+      }
     }
-
-    .image {
-    display: none; /* hide images on small screens */
-    } 
-
-    .text {
-    max-width: 90%; /* make text take more space */
-    text-align: center;
-    }
-}
 
     </style>
 </head>
-<body> 
-  
+<body>
+
+  <!-- NAVBAR -->
   <div class="navbar">
     <a href="index.html" class="hopper_logo">h<span class="o">o</span>pper</a>
+
     <div class="nav_links">
       <a href="index.html" class="nav_button">home</a>
       <a href="offers.html" class="nav_button">current switch offers</a>
@@ -179,46 +207,77 @@
       <a href="tips.html" class="nav_button">top tips</a>
       <a href="contact.html" class="nav_button">contact</a>
     </div>
+
+    <div class="burger" id="burger">&#9776;</div>
   </div>
 
-  <div class="header">
-    how does it work?
+  <!-- MOBILE MENU -->
+  <div class="mobile_menu" id="mobile_menu">
+      <span class="close-btn" id="close_menu">&times;</span>
+
+      <a href="index.html">home</a>
+      <a href="offers.html">current switch offers</a>
+      <a href="how.html">how does it work?</a>
+      <a href="tips.html">top tips</a>
+      <a href="contact.html">contact</a>
   </div>
+
+  <!-- PAGE CONTENT -->
+  <div class="header">how does it work?</div>
+
   <div class="main">
     <div class="info" id="info1">
       <div class="text">
         <h1>why would banks pay me?</h1>
-        <p>Banks are hoping you’ll stick around and use their services. By offering a cash bonus, they’re betting that, over time, they’ll earn more from things like fees, interest, or other products you might use. Think of it like a “welcome mat”: they’re putting out the cash to get you in the door and keep you coming back.</p>
-      </div> 
-        <div class="image"><img src="media/photo1.png" alt="hello"/></div>
+        <p>Banks are hoping you’ll stick around and use their services. By offering a cash bonus, they’re betting that they’ll earn more over time. It’s like a “welcome mat”: they invest upfront to win you as a long-term customer.</p>
+      </div>
+      <div class="image"><img src="media/photo1.png" alt="hello"></div>
     </div>
+
     <div class="info" id="info2">
-      <div class="image"><img src="media/photo2.png" alt="hello"/></div>
+      <div class="image"><img src="media/photo2.png" alt="hello"></div>
       <div class="text">
         <h1>is it really that simple?</h1>
-        <p>Mostly, yes. Switching your account is handled by CASS, a system that makes the process safe and standardised. There are usually a few hoops - like setting up direct debits or leaving your account open for a few months - but they’re not tricky if you can stay organised.</p>
-      </div> 
+        <p>Mostly, yes. CASS handles the switching safely and automatically. You may need to set up direct debits or keep the account open a few months, but nothing is difficult if you stay organised.</p>
+      </div>
     </div>
+
     <div class="info" id="info3">
       <div class="text">
         <h1>how much money can I make?</h1>
-        <p>You won't become rich! Bonuses usually fall between £100–£200. Still, that’s essentially free cash for following a few simple steps. Once you’ve claimed a bonus, the same bank probably won’t give you another for a few years, so treat it as a one-off win rather than a steady income.</p>
-      </div> 
-      <div class="image"><img src="media/photo3.png" alt="hello"/></div>
+        <p>Typically £100–£200. It’s free money for following simple steps. Once you’ve claimed a bonus, you probably won’t be eligible again with the same bank for a while — so treat it as a one-off win.</p>
+      </div>
+      <div class="image"><img src="media/photo3.png" alt="hello"></div>
     </div>
   </div>
 
-
   <script>
-    const infos = document.querySelectorAll('.info');
+    // Fade-in scroll animation
+    const infos = document.querySelectorAll(".info");
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
+        if (entry.isIntersecting) entry.target.classList.add("visible");
       });
     });
     infos.forEach(info => observer.observe(info));
-  </script>
 
+    // Burger menu
+    const menu = document.getElementById("mobile_menu");
+    const burger = document.getElementById("burger");
+    const closeBtn = document.getElementById("close_menu");
+
+    burger.addEventListener("click", () => {
+      menu.style.display = "flex";
+      burger.style.display = "none";
+      document.body.style.overflow = "hidden";
+    });
+
+    closeBtn.addEventListener("click", () => {
+      menu.style.display = "none";
+      burger.style.display = "block";
+      document.body.style.overflow = "auto";
+    });
+  </script>
 
 </body>
 </html>
